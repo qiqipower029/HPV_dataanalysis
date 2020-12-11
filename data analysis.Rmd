@@ -1,0 +1,45 @@
+---
+title: "data analysis"
+author: "Jieqi Tu"
+date: "12/10/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+## Import data
+```{r import data}
+#HPV.data = readxl::read_excel("TCGA_HPV_mutation_Summary_042720 copy.xlsx")
+```
+First, we want extract genes: CD3e, CD3d, CD4, CD8a, CD8b, Foxp3, IFNg, IL2, PD1, PDL1, TP53, MYC, EGFR, ERBB2, ERBB3, EGF, NRG1 (Heregulin1/Neuregulin1), IL-6, TGFb1, FGF1, FGF2.
+## Extract genes
+```{r gene extraction}
+HPV.data1 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD3E")))
+HPV.data2 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD3D")))
+HPV.data3 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD4")))
+HPV.data4 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD8A")))
+HPV.data5 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD8B")))
+HPV.data6 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("FOXP3")))
+HPV.data7 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("IFNG")))
+HPV.data8 = 
+  HPV.data %>% 
+  filter(str_detect(name, c("CD3E")))
+```
+

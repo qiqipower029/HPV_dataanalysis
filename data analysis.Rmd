@@ -85,11 +85,17 @@ HPV.data21 =
   HPV.data %>% 
   filter(str_detect(gene_name, c("COL6392")))
 
+HPV.data.new = rbind(HPV.data1, HPV.data2, HPV.data3, HPV.data4, HPV.data5, HPV.data6, HPV.data7,
+                     HPV.data8, HPV.data9, HPV.data10, HPV.data11, HPV.data12, HPV.data13, HPV.data14,
+                     HPV.data15, HPV.data16, HPV.data17, HPV.data18, HPV.data19, HPV.data20, HPV.data21)
+
 # Write the results as an excel file
 library(openxlsx)
 write.xlsx(list(HPV.data1, HPV.data2, HPV.data3, HPV.data4, HPV.data5, HPV.data6, HPV.data7,
                 HPV.data8, HPV.data9, HPV.data10, HPV.data11, HPV.data12, HPV.data13, HPV.data14,
                 HPV.data15, HPV.data16, HPV.data17, HPV.data18, HPV.data19, HPV.data20, HPV.data21), "ExtracredGene.xlsx", sheetName = c("CD3e", "CD3d", "CD4", "CD8a", "CD8b", "Foxp3", "IFNg", "IL2", "PD1", "PDL1", "TP53", "MYC", "EGFR", "ERBB2", "ERBB3", "EGF", "NRG1",  "IL-6", "TGFb1", "FGF1", "FGF2"))
+
+write.xlsx(HPV.data.new, "HPVdatanew.xlsx")
 ```
 
 Genes are categorized in different sheets. 
@@ -111,3 +117,58 @@ write.xlsx(HPV.data.pval, "Genes_smallP.xlsx")
 ```
 
 Since there are 3609 genes having p-values less than 0.05. We cannot make a scatter point plot with all the gene names added on. 
+
+```{r bar plot}
+# Create bar plot with standard deviation
+FGF1 = readxl::read_excel(path = "HPVdatanew.xlsx", sheet = "FGF1")
+FGF1.plot = 
+  FGF1 %>% 
+  ggplot(aes(x = altered, y = mean)) + geom_bar(stat = "identity") + geom_errorbar(aes(x = altered, ymin = mean - StdDev, ymax = mean + StdDev)) +
+  theme_bw() + labs(
+    x = "FGF1",
+    y = "Mean"
+  )
+
+TGFB1 = readxl::read_excel(path = "HPVdatanew.xlsx", sheet = "TGFB1")
+TGFB1.plot = 
+  TGFB1 %>% 
+  ggplot(aes(x = altered, y = mean)) + geom_bar(stat = "identity") + geom_errorbar(aes(x = altered, ymin = mean - StdDev, ymax = mean + StdDev)) +
+  theme_bw() + labs(
+    x = "TGFB1",
+    y = "Mean"
+  )
+
+FGF2 = readxl::read_excel(path = "HPVdatanew.xlsx", sheet = "FGF2")
+FGF2.plot = 
+  FGF2 %>% 
+  ggplot(aes(x = altered, y = mean)) + geom_bar(stat = "identity") + geom_errorbar(aes(x = altered, ymin = mean - StdDev, ymax = mean + StdDev)) +
+  theme_bw() + labs(
+    x = "FGF2",
+    y = "Mean"
+  )
+
+IL2 = readxl::read_excel(path = "HPVdatanew.xlsx", sheet = "IL2")
+IL2.plot = 
+  IL2 %>% 
+  ggplot(aes(x = altered, y = mean)) + geom_bar(stat = "identity") + geom_errorbar(aes(x = altered, ymin = mean - StdDev, ymax = mean + StdDev)) +
+  theme_bw() + labs(
+    x = "IL2",
+    y = "Mean"
+  )
+
+NRG1 = readxl::read_excel(path = "HPVdatanew.xlsx", sheet = "NRG1")
+NRG1.plot = 
+  NRG1 %>% 
+  ggplot(aes(x = altered, y = mean)) + geom_bar(stat = "identity") + geom_errorbar(aes(x = altered, ymin = mean - StdDev, ymax = mean + StdDev)) +
+  theme_bw() + labs(
+    x = "NRG1",
+    y = "Mean"
+  )
+library(ggpubr)
+ggarrange(FGF1.plot, FGF2.plot, IL2.plot,
+          NRG1.plot, TGFB1.plot,
+          ncol = 2, nrow = 3,
+          labels = c("1", "2", "3",
+                     "4", "5"))
+```
+
